@@ -1,0 +1,43 @@
+    //{0,1,1,1,1,0,6,7,7,0,5,3,0};
+    public static int[] Processing_v2(int[] innerMass){
+        int zeroPosition = 0;
+        int lastAddPosition = 0; // последняя позиция результирующего массива
+        boolean firstZero = true; // особое поведение если массив начинается не с нуля
+        int[] resilt = new int[innerMass.length]; // задал разультат как ограниченный массив, раз уж в задаче так
+        for (int MassiveElement : innerMass) // обход массива потоком
+        {
+            if (MassiveElement==0){ //если встретили 0
+                zeroPosition++; // получение полного растояния до прошлого нуля
+                if (firstZero){ // если это первый 0, заполняем значения результирующего массива до его позиции по убыванию
+                    for (int j=zeroPosition-1;j>0;j--){
+                        resilt[lastAddPosition]=j;
+                        lastAddPosition++;
+                    }
+                }else { // если не первый
+                    // заполняем значения результирующего массива до середины по возростанию
+                    for (int j=0;j<((int)Math.ceil(zeroPosition/2+0.5));j++){
+
+                        resilt[lastAddPosition]=j;
+                        lastAddPosition++;
+                    }
+                    // затем по убыванию
+                    for (int j=((int)Math.ceil((zeroPosition-1)/2-0.5));j>0;j--){
+                        resilt[lastAddPosition]=j;
+                        lastAddPosition++;
+                    }
+                }
+                //lastAddPosition = i;
+                zeroPosition=0; // обновляем отсчёт расстояния до нуля
+                firstZero=false; // раз дошло до сюда значит 0 не первый
+            }else { // отсчитываем расстояние до нуля
+                zeroPosition++;
+            }
+        }
+        if (zeroPosition!=0){ // если последняя позиция входного массива не 0
+            // заполняем значения результирующего массива до конца по возростанию
+            for (int j=0;j<=(zeroPosition);j++){
+                resilt[lastAddPosition+j]=j;
+            }
+        }
+        return resilt;
+    }
