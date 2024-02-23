@@ -23,8 +23,13 @@
 
 `git clone --branch master --single-branch https://github.com/user/repo.git /TVAPI #Загрузка проекта в конкретную папку`
 
+`git add . #Добавление всех файлов в кэш (кроме игнорируемых)`
 
+`git commit -m "test" #commit добавленного кода`
 
+`git status #Список изменений в кэше`
+
+`git push origin main #Отправка commit на git`
 
 `git rm -rf --cached . #Удаление всего commit из кеша проекта`
 
