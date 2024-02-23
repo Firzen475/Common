@@ -1,15 +1,35 @@
 # KMS
 Подготовка в 3 этапа
 
-  I. Подготовка
+  docker
 
 - Установка [docker](https://docs.docker.com/engine/install/)
 
 - Установка [docker-compose](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04-ru)
 
-- Загрузка проекта в конкретную папку:  
+`docker image rm $(docker image  ls -aq) -f #Удалить все image`
 
-`git clone --branch master --single-branch https://github.com/Firzen475/KMS.git`
+`docker container prune #Удалить все контейнеры`
+
+`docker exec -it <container name> /bin/bash`
+
+`docker-compose down && docker-compose build --force-rm && docker-compose up -d #Сборка и запуск контейнеров`
+
+`docker image ls #Список образов`
+
+`docker container ls #Список контейнеров`
+
+  github
+
+`git clone --branch master --single-branch https://github.com/user/repo.git /TVAPI #Загрузка проекта в конкретную папку`
+
+
+
+
+`git rm -rf --cached . #Удаление всего commit из кеша проекта`
+
+
+
   
 - Загрузка этого проекта
 
