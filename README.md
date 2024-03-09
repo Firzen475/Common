@@ -38,7 +38,11 @@
 
 [Инструкция по SSH подключению](https://habr.com/ru/articles/755036/)  
 
+  mysql  
 
+`mysqldump -u root test > /backup_file.sql #Создание полного бекапа базы test`
+
+`mysql -u root < backup_file.sql #Восстановление базы из бекапа`
   
 - Загрузка этого проекта
 
