@@ -36,6 +36,7 @@
 
 `git rm -rf --cached . #Удаление всего commit из кеша проекта`
 
+[Инструкция по SSH подключению](https://habr.com/ru/articles/755036/)  
 
 
   
