@@ -43,6 +43,8 @@
 `mysqldump -u root test > /backup_file.sql #Создание полного бекапа базы test`
 
 `mysql -u root test < backup_file.sql #Восстановление базы из бекапа`
+
+`mysql -u $user -D $dbname -p $password -e "select Col1 from Table1 where Condition;"`
   
 - Загрузка этого проекта
 
