@@ -29,7 +29,7 @@
 
   - Создать новый репозиторий вручную и скопировать SSH ссылку, далее из папки:  
 
-`git config --global user.email "Firzen475gmail.com" && git config --global user.name "Firzen475" && git init && git add .gitignore && git add . && git commit && git remote add origin git@github.com:Firzen475/new_project.git && git push -u origin master`
+`git config --global user.email "Firzen475gmail.com" && git config --global user.name "Firzen475" && git init && git add .gitignore && git add . && git commit -m "first upload" && git remote add origin git@github.com:Firzen475/new_project.git && git push -u origin master`
 
 ***
 
