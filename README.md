@@ -27,7 +27,10 @@
   github
 - Создание нового репозитория из консоли
 
--- фывфы
+  - Создать новый репозиторий вручную и скопировать SSH ссылку, далее из папки:  
+
+  `git init && git add .gitignore && git add . && git commit && git remote add origin git@github.com:Firzen475/new_project.git && git push -u origin master`
+
 `git clone --branch master --single-branch https://github.com/user/repo.git /TVAPI #Загрузка проекта в конкретную папку`
 
 `git add . #Добавление всех файлов в кэш (кроме игнорируемых)`
