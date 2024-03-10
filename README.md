@@ -25,7 +25,9 @@
 `docker container ls #Список контейнеров`
 
   github
+- Создание нового репозитория из консоли
 
+-- фывфы
 `git clone --branch master --single-branch https://github.com/user/repo.git /TVAPI #Загрузка проекта в конкретную папку`
 
 `git add . #Добавление всех файлов в кэш (кроме игнорируемых)`
