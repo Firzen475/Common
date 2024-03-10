@@ -10,7 +10,7 @@
 
 - Установка [docker-compose](https://github.com/docker/compose/releases)
 
-`sudo curl -L "https://github.com/docker/compose/releases/download/[version]/docker-compose-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker-compose --version`
+`sudo curl -L "https://github.com/docker/compose/releases/download/v[version]/docker-compose-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker-compose --version`
 
 `docker image rm $(docker image  ls -aq) -f #Удалить все image`
 
