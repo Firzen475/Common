@@ -137,7 +137,24 @@
 
 `netstat -ntulp`
 
+
+
+
+
 - Проверка логов ansible
 
 `tail -f [PATH_ROOT]/install_lic.log`
+
+
+  Разное
+
+коммит сайта визитки
+`git init
+git add .
+git commit -am "commit"
+git remote add origin https://github.com/Firzen475/BusinessCardSite.git
+git branch -vv
+git branch -m master main
+git push -f origin main
+`
 
