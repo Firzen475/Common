@@ -63,6 +63,14 @@ watch ss -ntuap
 # nc сканер портов
 ## без отправки данных | verbose | UDP (без ключа tcp)
 nc -z -v -u 192.168.2.1 1-80 2>&1>/dev/null | grep succeeded
+# telnet старый протокол соединения (проверка портов)
+## DNS имя или IP | PORT
+telnet host 22
+# arp список известных MAC
+## -n без dns имён
+arp -n
+# resolvectl flush-caches сброс кэша DNS
+resolvectl flush-caches
 # tcpdump мониторинг трафика (wireshark)
 ## весь трафик | с хоста 
 tcpdump host 192.168.2.1
@@ -376,21 +384,27 @@ for i in gen_fun():
 - Установка [docker](https://docs.docker.com/engine/install/ubuntu/)
 
 - Установка [docker-compose](https://github.com/docker/compose/releases)
+```shell
+sudo curl -L "https://github.com/docker/compose/releases/download/v[version]/docker-compose-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker-compose --version`
 
-`sudo curl -L "https://github.com/docker/compose/releases/download/v[version]/docker-compose-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker-compose --version`
+docker image rm $(docker image  ls -aq) -f #Удалить все image`
 
-`docker image rm $(docker image  ls -aq) -f #Удалить все image`
+docker container prune #Удалить все контейнеры`
 
-`docker container prune #Удалить все контейнеры`
+docker system prune -a # Удалить всё
 
-`docker exec -it <container name> /bin/bash`
+docker logs <container name> # Логи запущенного контейнера
 
-`docker-compose down && docker-compose build --force-rm && docker-compose up -d #Сборка и запуск контейнеров`
+docker inspect <container name> # Подробная информация о контейнере.
 
-`docker image ls #Список образов`
+docker exec -it <container name> /bin/bash`
 
-`docker container ls #Список контейнеров`
+docker-compose down && docker-compose build --force-rm && docker-compose up -d #Сборка и запуск контейнеров`
 
+docker image ls #Список образов`
+
+docker container ls #Список контейнеров`
+```
   github
 - Создание нового репозитория из консоли
 
