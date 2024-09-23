@@ -38,7 +38,7 @@ ICMP (ping) - протокол ошибок в сети без подтверж�
   ## Отладка системы
   ### Ядро и процессы
 ```shell
-# strace список системных вызовов
+# strace список системных вызовов (ls это команда)
 strace -c ls
 # iostat загрузка диска
 iostat -xtc
@@ -385,13 +385,17 @@ for i in gen_fun():
 
 - Установка [docker-compose](https://github.com/docker/compose/releases)
 ```shell
-sudo curl -L "https://github.com/docker/compose/releases/download/v[version]/docker-compose-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker-compose --version`
+sudo curl -L "https://github.com/docker/compose/releases/download/v[version]/docker-compose-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker-compose --version
 
-docker image rm $(docker image  ls -aq) -f #Удалить все image`
+docker image rm $(docker image  ls -aq) -f #Удалить все image.
 
-docker container prune #Удалить все контейнеры`
+docker container prune #Удалить все контейнеры.
 
-docker system prune -a # Удалить всё
+docker system prune -a # Удалить хэш.
+
+docker image ls #Список образов.
+
+docker container ls #Список контейнеров.
 
 docker logs <container name> # Логи запущенного контейнера
 
@@ -401,9 +405,7 @@ docker exec -it <container name> /bin/bash`
 
 docker-compose down && docker-compose build --force-rm && docker-compose up -d #Сборка и запуск контейнеров`
 
-docker image ls #Список образов`
 
-docker container ls #Список контейнеров`
 ```
   github
 - Создание нового репозитория из консоли
