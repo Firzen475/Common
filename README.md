@@ -141,8 +141,14 @@ a=5; true | { true && a=10; echo $a; } #Каждая команда конвей
 10
 echo $a
 5
-#
 
+if [[ "$aaa" == "bbb" ]]; then
+   echo "bbb"
+elif [[ "$aaa" == "ccc" ]]; then
+   echo "ccc"
+else
+   echo "something else"
+fi
 ```
 
   ## Утилиты
@@ -244,8 +250,77 @@ apt install manpages-dev manpages-posix-dev && man 2 <syscall> #Мануал п�
 Изменяет время доступа к файлу и может создать файл.
   ### history
 История команд.
+  ### sed
+```shell
+# изменять файл | s - тип разделителя | 1,2,g - первое, второе, все вхождения
+sed -i "s:text1:text2:g" /test.txt
 
-  
+sed -n "s:text1:text2:p" /test.txt # тест замены без внесения изменений
+
+```
+  ### jq
+```json
+{
+  "control": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string"
+      ]
+    ],
+    "value": [
+      "control02"
+    ]
+  },
+  "control_main": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string"
+      ]
+    ],
+    "value": [
+      "control01",
+      "control03",
+      "control04"
+    ]
+  }
+}
+```
+```shell
+# .[] - обход элементов первого уровня; del(.[]|."sensitive") - удаление элемента sensitive второго уровня;
+# walk(if type == "object" then - обход всех элементов {key:value} ; 
+# with_entries( if .key == "value" then - получает доступ к key и value, далее проверяет;
+# | .value = (.value | map({(.) : null} )  | add) - формирует из списка в value объект {value[n]:null}, 
+# add добавляет в виртуальный объект ; потом всё присваивается к .value
+jq -r 'del(.[]|."sensitive") | del(.[]|."type") | walk(if type == "object" then with_entries( if .key == "value" then .key = "hosts" | .value = (.value | map({(.) : null} )  | add) else . end ) else . end) '
+```
+```json
+{
+  "control": {
+    "hosts": {
+      "control02": null
+    }
+  },
+  "control_main": {
+    "hosts": {
+      "control01": null,
+      "control03": null,
+      "control04": null
+    }
+  }
+}
+``` 
+  ### awk
+```shell
+# Вывод текста от и до
+awk '/from/,/to/ {print }'
+
+```
+
+
 `echo -e "${VAR1}\n${VAR1}" > /test.txt #Вставка переменных и переноса строк в вывод`
 
   ## ansible
@@ -407,7 +482,23 @@ docker-compose down && docker-compose build --force-rm && docker-compose up -d #
 
 
 ```
-  github
+
+  ## swarm
+```shell
+
+docker stack services <stack-name> # Список контейнеров в stack и их статус
+
+docker stack ps <stack-name> # Список состояний контейнеров в stack
+
+docker node ls # Список нод в swarm
+
+docker stack rm <stack-name> # Удалить stack
+```
+
+
+
+
+  ## github
 - Создание нового репозитория из консоли
 
   - Создать новый репозиторий вручную и скопировать SSH ссылку, далее из папки:  
