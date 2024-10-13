@@ -486,9 +486,9 @@ docker-compose down && docker-compose build --force-rm && docker-compose up -d #
   ## swarm
 ```shell
 
-docker stack services <stack-name> # Список контейнеров в stack и их статус
+docker stack services <stack-name> --no-trunc # Список контейнеров в stack и их статус
 
-docker stack ps <stack-name> # Список состояний контейнеров в stack
+docker stack ps <stack-name> --no-trunc # Список состояний контейнеров в stack
 
 docker node ls # Список нод в swarm
 
