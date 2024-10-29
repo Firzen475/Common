@@ -38,6 +38,8 @@ ICMP (ping) - протокол ошибок в сети без подтверж�
   ## Отладка системы
   ### Ядро и процессы
 ```shell
+# свободная оперативка
+free
 # strace список системных вызовов (ls это команда)
 strace -c ls
 # iostat загрузка диска
@@ -78,6 +80,8 @@ tcpdump host 192.168.2.1
 tcpdump -nn -i eth0 src 192.168.2.1 and not port 22
 ## 10 пакетов | интерфейс | ip:port | содержимое пакета | порт
 tcpdump -c10 -i eth0 -nn -A port 22
+## verbose | не преобразовывать в dns-имя | интерфейс | протокол
+tcpdump -vvv -ni eth0 vrrp
 ```
 
   ### WEB
@@ -252,6 +256,9 @@ apt install manpages-dev manpages-posix-dev && man 2 <syscall> #Мануал п�
 История команд.
   ### sed
 ```shell
+
+if [ "" $string1 == $string2 "" ]
+
 # изменять файл | s - тип разделителя | 1,2,g - первое, второе, все вхождения
 sed -i "s:text1:text2:g" /test.txt
 
@@ -483,17 +490,7 @@ docker-compose down && docker-compose build --force-rm && docker-compose up -d #
 
 ```
 
-  ## swarm
-```shell
 
-docker stack services <stack-name> --no-trunc # Список контейнеров в stack и их статус
-
-docker stack ps <stack-name> --no-trunc # Список состояний контейнеров в stack
-
-docker node ls # Список нод в swarm
-
-docker stack rm <stack-name> # Удалить stack
-```
 
 
 
