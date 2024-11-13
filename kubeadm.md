@@ -89,4 +89,9 @@ kubectl get tigerastatus
 
 helm upgrade calico projectcalico/tigera-operator --version v3.28.2 -f /mnt/kuber/repo/calico-values.yaml --namespace tigera-operator
 
+
+# получаем метрики изпод контейнера  подключенным токеном авторизации
+curl -k -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" https://192.170.0.10:6443/metrics
+
+
 ```
