@@ -74,6 +74,8 @@ kubectl get componentstatus
 journalctl -f -u kubelet
 
 
+kubectl describe pods/calico-typha-74dcf59cbf-ffcv2 -n calico-system
+
 crictl -h # Управление контейнерами на уровне containerd
 
 kubectl get svc kubernetes
@@ -85,6 +87,6 @@ calico
 kubectl get tigerastatus
 
 
-
+helm upgrade calico projectcalico/tigera-operator --version v3.28.2 -f /mnt/kuber/repo/calico-values.yaml --namespace tigera-operator
 
 ```

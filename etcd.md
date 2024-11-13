@@ -18,4 +18,7 @@ curl --cacert /mnt/etcd/ca_etcd.pem --cert /mnt/etcd/client.pem --key /mnt/etcd/
 
 etcdctl --cacert="/mnt/etcd/ca_etcd.pem" --cert="/mnt/etcd/client.pem" --key="/mnt/etcd/client-key.pem" --endpoints="https://192.168.2.2:2381" get foo
 
+
+
+etcdctl endpoint health --cacert="/mnt/swarm/etcd/ca_etcd.pem" --cert="/mnt/swarm/etcd/client.pem" --key="/mnt/swarm/etcd/client-key.pem" --endpoints="https://192.168.2.2:2381"
 ```
