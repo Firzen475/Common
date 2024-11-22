@@ -90,8 +90,23 @@ kubectl get tigerastatus
 helm upgrade calico projectcalico/tigera-operator --version v3.28.2 -f /mnt/kuber/repo/calico-values.yaml --namespace tigera-operator
 
 
-# получаем метрики изпод контейнера  подключенным токеном авторизации
-curl -k -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" https://192.170.0.10:6443/metrics
+
+
+# Тестирование пользовательских метрик
+watch "kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1 | jq && echo '//////////////////////////////' && \
+kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/my_custom_metric | jq"
+
+watch "kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1 | jq && echo '/////////////target//////////////' && \
+kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1/kube-system/testing/pods/*/my_custom_metric?selector=pod%3Dcoredns | jq && \
+echo '/////////////namespaces+pods//////////////' && \
+kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1/namespaces/kube-system/pods/coredns/my_custom_metric | jq && \
+echo '/////////////pods//////////////' && \
+kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1/pods/coredns/my_custom_metric | jq && \
+echo '/////////////namespaces//////////////' && \
+kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1/namespaces/kube-system/my_custom_metric | jq && \
+echo '/////////////---------//////////////' && \
+kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1/my_custom_metric | jq " 
+
 
 
 ```
