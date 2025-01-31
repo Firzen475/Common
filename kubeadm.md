@@ -60,7 +60,7 @@ watch kubectl get secretstores,externalsecrets,clustersecretstores,clusterextern
 # control01
 watch "kubectl get issuers,clusterissuers,certificates,bundles,secrets,cm -A -o wide | grep -v helm | grep -v calico-system | grep  -v kube-system | grep  -v secrets "
 # control02
-watch "kubectl get rc,sc,ingress,services,node -A -o wide | grep -v calico-system | grep  -v kube-system"
+watch "kubectl get rc,ingress,services,node -A -o wide | grep -v calico-system | grep  -v kube-system"
 # control03
 watch "kubectl get pods -A -o wide | grep -v calico-system | grep  -v kube-system"
 
