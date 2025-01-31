@@ -1,0 +1,6 @@
+config dropbear
+        option Port '22'
+        option Interface 'lan'
+        option GatewayPorts 'on'
+        option RootPasswordAuth '1'
+        option PasswordAuth '0'

@@ -8,6 +8,8 @@ docker node ls # Список нод в swarm
 
 docker service ls # Контейнеры на текущей машине
 
+docker service update --force fuiqe7oi7psk
+
 docker network ls # Список сетей
 
 docker service logs <servce> # Логи сервиса
@@ -21,4 +23,12 @@ docker stack ps --no-trunc servers # Список состояний конте�
 
 
 docker stack rm <stack-name> # Удалить stack
+
+
+
+
+docker stack deploy --compose-file /tmp/compose.yaml servers
+
+docker service update --force fuiqe7oi7psk
+
 ```

@@ -14,7 +14,8 @@ kubectl get  apiservice -A
 kubectl describe apiservice v1beta1.custom.metrics.k8s.io && kubectl describe apiservice v1beta1.metrics.k8s.io
 
 
-
+kubectl exec -it metrics-scraper -n monitoring -- sh
+curl -k -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" https://192.168.2.10:9100/metrics | grep "# HELP" | awk '{out="| "$3" | --- | "; for(i=3;i<=NF;i++){out=out" "$i}; print out" | --- |"}'
 
 
 watch "echo '/////////////hpa//////////////' && kubectl get hpa -A && \

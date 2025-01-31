@@ -1,0 +1,149 @@
+config dnsmasq
+        option domainneeded '1'
+        option boguspriv '1'
+        option filterwin2k '0'
+        option localise_queries '1'
+        option rebind_protection '1'
+        option rebind_localhost '1'
+        option expandhosts '1'
+        option authoritative '1'
+        option readethers '1'
+        option leasefile '/tmp/dhcp.leases'
+        option local '/home.lan/'
+        option domain 'home.lan'
+        list server '8.8.8.8'
+        list server '8.8.4.4'
+        option resolvfile '/tmp/resolv.conf.d/resolv.conf.auto'
+        option localservice '0'
+        option add_local_fqdn '0'
+        option tftp_root '/tftpboot'
+        #option dhcp_boot 'pxelinux.0'
+        option enable_tftp '1'
+        option logdhcp '1'
+        option logqueries '1'
+        option logfacility '/var/log/dnsmasq.log'
+
+config dhcp 'lan'
+        option interface 'lan'
+        option start '101'
+        option limit '200'
+        option leasetime '12h'
+        list dhcp_option '3,192.168.2.1'
+        option dhcpv4 'server'
+        option dhcpv6 'server'
+        option ra 'server'
+        option ra_slaac '1'
+        list ra_flags 'managed-config'
+        list ra_flags 'other-config'
+
+config dhcp 'wan'
+        option interface 'wan'
+        option ignore '1'
+
+config domain
+        option name 'luci'
+        option ip '192.168.2.1'
+
+config domain
+        option name 'openwrt'
+        option ip '192.168.2.1'
+
+config domain
+        option name 'transmission'
+        option ip '192.168.2.1'
+
+config domain
+        option name 'ftp'
+        option ip '192.168.2.1'
+
+config domain
+        option name 'dlna'
+        option ip '192.168.2.1'
+
+config host
+        option dns '1'
+        option ip '192.168.2.5'
+        option mac '94:DE:80:7D:2D:43'
+        option name 'esxi'
+
+config host
+        option dns '1'
+        option ip '192.168.2.200'
+        option mac '20:4E:7F:33:A3:1C'
+        option name 'HomePC'
+
+
+
+config host
+        option mac '00:0C:29:6B:EF:D7'
+        option name 'MineCraftServer'
+        option dns '1'
+        option ip '192.168.2.9'
+
+config host
+        option mac '00:50:56:a1:b1:c2'
+        option name 'control01'
+        option dns '1'
+        option ip '192.168.2.10'
+
+config host
+        option mac '00:50:56:A1:68:24'
+        option name 'control02'
+        option dns '1'
+        option ip '192.168.2.11'
+
+config host
+        option mac '00:50:56:A0:5F:05'
+        option name 'control03'
+        option dns '1'
+        option ip '192.168.2.12'
+
+config host
+        option dns '1'
+        option mac '00:50:56:A1:08:2A'
+        option name 'dev01'
+        option ip '192.168.2.20'
+
+config host
+        option dns '1'
+        option mac '00:50:56:A2:AA:43'
+        option name 'test01'
+        option ip '192.168.2.30'
+
+config host
+        option dns '1'
+        option mac '00:50:56:AC:E7:39'
+        option name 'prod01'
+        option ip '192.168.2.40'
+
+config odhcpd 'odhcpd'
+        option maindhcp '0'
+        option leasefile '/tmp/hosts/odhcpd'
+        option leasetrigger '/usr/sbin/odhcpd-update'
+        option loglevel '1'
+
+config match
+        option networkid 'bios'
+        option match '60,PXEClient:Arch:00000'
+
+config match
+        option networkid 'efi32'
+        option match '60,PXEClient:Arch:00006'
+
+config match
+        option networkid 'efi64'
+        option match '60,PXEClient:Arch:00007'
+
+config match
+        option networkid 'efi64'
+        option match '60,PXEClient:Arch:00009'
+
+config boot
+        option filename 'tag:bios,bios/pxelinux.0'
+        option serveraddress '192.168.2.1'
+        option servername 'OpenWrt_bios'
+
+config boot
+        option filename 'tag:efi64,grub/pxelinux.0'
+        option serveraddress '192.168.2.1'
+        option servername 'OpenWrt_uefi'

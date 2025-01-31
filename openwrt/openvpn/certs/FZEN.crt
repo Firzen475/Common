@@ -1,0 +1,86 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            c9:67:70:e8:b5:72:2d:87:78:71:19:05:17:ac:cb:02
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: CN=FZEN
+        Validity
+            Not Before: Jun 16 06:03:18 2023 GMT
+            Not After : Sep 18 06:03:18 2025 GMT
+        Subject: CN=FZEN
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                RSA Public-Key: (2048 bit)
+                Modulus:
+                    00:c5:54:16:24:f3:ca:38:f6:43:7d:f7:56:74:f4:
+                    ac:8c:23:7e:f6:a3:a2:b4:57:59:ed:0a:db:ae:d7:
+                    19:12:cb:ca:85:a3:42:18:5d:6d:a9:88:96:04:18:
+                    b0:27:78:a8:96:54:46:3c:a8:80:cd:67:a3:7a:bb:
+                    5a:9d:d5:9e:02:1e:92:e7:1d:9d:6e:70:05:60:50:
+                    1c:41:45:b2:21:a8:f5:1b:f2:54:f3:59:04:4b:af:
+                    d1:7d:22:18:48:f8:54:cf:8b:07:30:de:f8:33:2e:
+                    f3:d7:ce:85:80:4b:0e:92:5d:c8:d0:16:f9:26:82:
+                    41:20:03:c6:9c:83:62:0a:b5:62:4a:c9:09:a5:de:
+                    a6:c2:5f:7f:2e:06:73:25:3f:5b:cc:f3:f7:54:ce:
+                    5c:2c:80:80:6c:ea:45:cb:df:37:4c:8b:c9:18:2e:
+                    bf:37:79:ba:7f:5e:a1:80:d2:cc:72:0e:86:fe:16:
+                    27:84:cf:27:c5:66:ab:c9:70:2a:8b:ba:ae:c2:1c:
+                    a0:c5:f6:fb:39:f5:e1:69:5b:f4:44:42:52:b0:6c:
+                    1e:c9:b2:04:96:b3:52:d7:55:18:41:76:9f:b6:c2:
+                    c8:f7:43:d5:73:d3:21:9f:f7:a8:67:26:dd:0d:48:
+                    c8:8e:42:c7:17:0a:09:d1:aa:c1:45:4e:c2:34:67:
+                    0f:e3
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints:
+                CA:FALSE
+            X509v3 Subject Key Identifier:
+                C9:6E:2E:A2:FE:7B:50:58:55:7A:31:E6:1B:DE:C2:E7:3E:A3:3A:3E
+            X509v3 Authority Key Identifier:
+                keyid:4B:8E:F0:46:0F:55:D0:AB:DB:C3:B2:85:9F:E8:CE:A9:87:5D:64:7D
+                DirName:/CN=FZEN
+                serial:34:9A:B1:60:15:8D:0D:E9:FE:7C:08:2F:9B:AF:F7:61:4C:6E:65:60
+
+            X509v3 Extended Key Usage:
+                TLS Web Server Authentication
+            X509v3 Key Usage:
+                Digital Signature, Key Encipherment
+            X509v3 Subject Alternative Name:
+                DNS:FZEN
+    Signature Algorithm: sha256WithRSAEncryption
+         50:80:dc:1c:6e:2d:4c:ea:ca:5d:d3:3b:4b:cb:d1:a2:44:c8:
+         36:de:f9:ee:8c:93:5d:18:70:65:6d:aa:64:d5:04:b8:ac:b9:
+         06:c0:64:f8:ce:d3:3a:02:2a:f2:0c:20:90:46:52:e3:b7:2e:
+         93:22:87:3b:72:95:b3:5e:33:58:d5:f4:21:89:a2:33:7d:9f:
+         2b:81:e4:21:b0:59:80:f5:cb:6f:90:5b:dc:2d:25:8c:c9:3b:
+         61:5a:a1:fc:06:64:04:30:9a:63:27:bb:24:13:f8:f4:72:95:
+         56:63:d1:5d:7f:cd:f1:80:4b:2d:df:d8:9c:5e:8a:e6:8c:f6:
+         d1:79:ea:f2:31:05:60:e7:28:fb:08:fd:0a:ae:54:fb:89:35:
+         f5:de:61:25:f2:15:33:40:86:cc:f4:f2:15:c7:43:17:be:66:
+         41:d0:b4:a9:72:97:b6:f3:04:ab:3f:80:1f:9f:7b:5e:52:ba:
+         a4:49:9a:a2:2b:7a:34:5b:b8:ea:90:cc:f6:ff:17:5f:75:31:
+         a0:7f:5d:d1:d1:54:b5:c3:f3:2c:a2:f2:f1:b0:09:d9:28:4c:
+         f0:fc:d3:36:a8:a0:3c:42:6d:e7:a8:56:8d:c0:5c:e5:33:a0:
+         b9:d2:11:6c:7d:c3:2e:40:14:e5:49:33:27:60:74:81:b6:04:
+         69:95:17:0a
+-----BEGIN CERTIFICATE-----
+MIIDVjCCAj6gAwIBAgIRAMlncOi1ci2HeHEZBResywIwDQYJKoZIhvcNAQELBQAw
+DzENMAsGA1UEAwwERlpFTjAeFw0yMzA2MTYwNjAzMThaFw0yNTA5MTgwNjAzMTha
+MA8xDTALBgNVBAMMBEZaRU4wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+AQDFVBYk88o49kN991Z09KyMI372o6K0V1ntCtuu1xkSy8qFo0IYXW2piJYEGLAn
+eKiWVEY8qIDNZ6N6u1qd1Z4CHpLnHZ1ucAVgUBxBRbIhqPUb8lTzWQRLr9F9IhhI
++FTPiwcw3vgzLvPXzoWASw6SXcjQFvkmgkEgA8acg2IKtWJKyQml3qbCX38uBnMl
+P1vM8/dUzlwsgIBs6kXL3zdMi8kYLr83ebp/XqGA0sxyDob+FieEzyfFZqvJcCqL
+uq7CHKDF9vs59eFpW/REQlKwbB7JsgSWs1LXVRhBdp+2wsj3Q9Vz0yGf96hnJt0N
+SMiOQscXCgnRqsFFTsI0Zw/jAgMBAAGjgawwgakwCQYDVR0TBAIwADAdBgNVHQ4E
+FgQUyW4uov57UFhVejHmG97C5z6jOj4wSgYDVR0jBEMwQYAUS47wRg9V0Kvbw7KF
+n+jOqYddZH2hE6QRMA8xDTALBgNVBAMMBEZaRU6CFDSasWAVjQ3p/nwIL5uv92FM
+bmVgMBMGA1UdJQQMMAoGCCsGAQUFBwMBMAsGA1UdDwQEAwIFoDAPBgNVHREECDAG
+ggRGWkVOMA0GCSqGSIb3DQEBCwUAA4IBAQBQgNwcbi1M6spd0ztLy9GiRMg23vnu
+jJNdGHBlbapk1QS4rLkGwGT4ztM6AiryDCCQRlLjty6TIoc7cpWzXjNY1fQhiaIz
+fZ8rgeQhsFmA9ctvkFvcLSWMyTthWqH8BmQEMJpjJ7skE/j0cpVWY9Fdf83xgEst
+39icXormjPbReeryMQVg5yj7CP0KrlT7iTX13mEl8hUzQIbM9PIVx0MXvmZB0LSp
+cpe28wSrP4Afn3teUrqkSZqiK3o0W7jqkMz2/xdfdTGgf13R0VS1w/MsovLxsAnZ
+KEzw/NM2qKA8Qm3nqFaNwFzlM6C50hFsfcMuQBTlSTMnYHSBtgRplRcK
+-----END CERTIFICATE-----

@@ -1,0 +1,38 @@
+kind: Ingress
+metadata:
+  annotations:
+    meta.helm.sh/release-name: helm-chart-editor
+    meta.helm.sh/release-namespace: dev
+  creationTimestamp: "2025-01-27T02:30:41Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: helm-chart-editor
+    chart: helm-chart-editor-chart-0.9.5
+    heritage: Helm
+    release: helm-chart-editor
+  name: helm-chart-editor
+  namespace: dev
+  resourceVersion: "12688350"
+  uid: b83bd014-ea9c-49d4-927f-e291d4352124
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: helm-editor.fzen.pro
+      http:
+        paths:
+          - backend:
+              service:
+                name: helm-chart-editor
+                port:
+                  number: 4173
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - helm-editor.fzen.pro
+      secretName: cm-helm-chart-editor-tls
+status:
+  loadBalancer:
+    ingress:
+      - ip: 192.168.2.2

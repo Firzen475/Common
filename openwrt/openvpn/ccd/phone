@@ -1,0 +1,6 @@
+ifconfig-push 192.168.10.2 255.255.255.0
+push "topology subnet"
+push "route 192.168.2.0 255.255.255.0"
+push "dhcp-option DNS 192.168.2.11"
+push "dhcp-option DNS 192.168.2.1"
+push "dhcp-option DNS 8.8.8.8"

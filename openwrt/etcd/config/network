@@ -1,0 +1,65 @@
+config interface 'loopback'
+        option ifname 'lo'
+        option proto 'static'
+        option ipaddr '127.0.0.1'
+        option netmask '255.0.0.0'
+
+config interface 'wan'
+        option ifname 'eth0.1'
+        option proto 'dhcp'
+        option macaddr '00:1F:C6:ED:E6:D1'
+
+config interface 'lan'
+        option type 'bridge'
+        option ifname 'eth0.2'
+        option proto 'static'
+        option ipaddr '192.168.2.1'
+        option netmask '255.255.255.0'
+
+config switch
+        option name 'switch0'
+        option reset '1'
+        option enable_vlan '1'
+
+config switch_vlan
+        option device 'switch0'
+        option vlan '1'
+        option ports '0 8t'
+
+config switch_vlan
+        option device 'switch0'
+        option vlan '2'
+        option ports '1 2 3 4 8t'
+
+config interface 'vpn0'
+        option ifname 'tun0'
+        option proto 'none'
+        option auto '1'
+
+config interface 'wg0'
+        option proto 'wireguard'
+        option listen_port '51820'
+        option private_key 'oI4nfG6kPvZh+7UeAOe1tLcJZfbcXvhcodlo1lCbD10='
+        list addresses '10.8.0.4'
+
+config wireguard_wg0
+        option name 'wg0_client'
+        option route_allowed_ips '0'
+        option persistent_keepalive '25'
+        option allowed_ips '0.0.0.0/0'
+        option endpoint_host '178.20.209.247'
+        option endpoint_port '51820'
+        option public_key 'GAAVNoDeyHlaGdX54z5VgnWAHd6nE1V4KfkXb6dS7Eg='
+        option preshared_key 'AnvvlzkDG9EBpZyf9lQkU5lN9klsus/VWhYV8+npv4o='
+
+config rule
+        option name 'mark0x1'
+        option mark '0x1'
+        option priority '100'
+        option lookup 'vpn'
+
+config route 'vpn_route'
+        option name 'vpn'
+        option interface 'wg0'
+        option table 'vpn'
+        option target '0.0.0.0/0'

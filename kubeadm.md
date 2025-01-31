@@ -48,7 +48,32 @@ show-join-command             Show the join command for control-plane and worker
 
 
 
+```shell
 
+kubectl exec -it -n gitlab             pod/gitlab-gitaly-0 -- chown -R git:git /home/git/repositories/
+
+
+# control01
+watch kubectl get sc,pvc,pv,volumeattachments -A -o wide
+# control01
+watch kubectl get secretstores,externalsecrets,clustersecretstores,clusterexternalsecrets -A -o wide
+# control01
+watch "kubectl get issuers,clusterissuers,certificates,bundles,secrets,cm -A -o wide | grep -v helm | grep -v calico-system | grep  -v kube-system | grep  -v secrets "
+# control02
+watch "kubectl get rc,services,node -A -o wide | grep -v calico-system | grep  -v kube-system"
+# control03
+watch "kubectl get pods -A -o wide | grep -v calico-system | grep  -v kube-system"
+
+
+
+
+kubectl get sa,role,rolebinding,clusterrole,clusterrolebinding -o wide
+
+helm search repo
+
+helm get values RELEASE_NAME
+
+```
 
 
 
@@ -64,8 +89,8 @@ kubeadm init --config=/mnt/swarm/repo/kuberadm_init.conf --v=5
 kubeadm reset --config=/mnt/swarm/repo/kuberadm_init.conf
 
 kubectl get pods -A -o wide
-kubectl get node -A -o wide
-kubectl get rc,services -A -o wide
+
+kubectl get rc,services,node -A -o wide
 
 kubectl logs -n kube-system kube-controller-manager-control01
 
@@ -80,6 +105,9 @@ crictl -h # Управление контейнерами на уровне cont
 
 kubectl get svc kubernetes
 
+
+kubectl delete pod --selector=[label]=[value] -A
+kubectl delete pod --field-selector status.phase=Failed -A
 
 /////////////////////////////////////
 
@@ -107,6 +135,9 @@ kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1/namespaces/kube-system/my_
 echo '/////////////---------//////////////' && \
 kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1/my_custom_metric | jq " 
 
+
+kubectl get deploy -A
+kubectl exec -it deploy/grafana -n monitoring -- sh
 
 
 ```

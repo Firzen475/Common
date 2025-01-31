@@ -21,4 +21,14 @@ etcdctl --cacert="/mnt/etcd/ca_etcd.pem" --cert="/mnt/etcd/client.pem" --key="/m
 
 
 etcdctl endpoint health --cacert="/mnt/swarm/etcd/ca_etcd.pem" --cert="/mnt/swarm/etcd/client.pem" --key="/mnt/swarm/etcd/client-key.pem" --endpoints="https://192.168.2.2:2381"
+
+
+
+
+# список всех ключей
+etcdctl --cacert="/etc/ssl/etcd/ca_etcd.pem" --cert="/etc/ssl/etcd/client.pem" --key="/etc/ssl/etcd/client-key.pem" --endpoints="https://192.168.2.2:2381" get / --prefix --keys-only
+
+
+curl --cacert /etc/ssl/etcd/ca_etcd.pem --cert /etc/ssl/etcd/client.pem --key /etc/ssl/etcd/client-key.pem -L https://192.168.2.2:2381/readyz?verbose
+
 ```
