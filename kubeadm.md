@@ -50,6 +50,8 @@ show-join-command             Show the join command for control-plane and worker
 
 ```shell
 
+kubectl get -n monitoring         secret/dashboard-token -o jsonpath='{.data.token}' | base64 --decode
+
 kubectl exec -it -n gitlab             pod/gitlab-gitaly-0 -- chown -R git:git /home/git/repositories/
 
 
