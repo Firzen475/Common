@@ -28,7 +28,7 @@ TLS 1.2
 %%{init: {
   'theme': 'default',
   'fontSize': '30',
-  'themeCSS': 'text { font-size: 60px !important; }',
+  'themeCSS': 'text { font-size: 40px !important; }',
   'fontFamily': 'sans-serif',
   'sequence': {
 
