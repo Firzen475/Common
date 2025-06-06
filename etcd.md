@@ -28,6 +28,10 @@ etcdctl endpoint health --cacert="/mnt/swarm/etcd/ca_etcd.pem" --cert="/mnt/swar
 # список всех ключей
 etcdctl --cacert="/etc/ssl/etcd/ca_etcd.pem" --cert="/etc/ssl/etcd/client.pem" --key="/etc/ssl/etcd/client-key.pem" --endpoints="https://192.168.2.2:2381" get / --prefix --keys-only
 
+# список всех ключей minio
+etcdctl get 'config/iam/' --keys-only --prefix=true --cacert='/tmp/client-etcd/ca.crt' --cert='/tmp/client-etcd/tls.crt' --key='/tmp/client-etcd/tls.key' --endpoints='https://192.168.2.2:2381'
+# и их удаление
+etcdctl --cacert='/etc/ssl/etcd/ca_etcd.pem' --cert='/etc/ssl/etcd/client.pem' --key='/etc/ssl/etcd/client-key.pem' --endpoints='https://192.168.2.2:2381' del {{ item }} --prefix
 
 curl --cacert /etc/ssl/etcd/ca_etcd.pem --cert /etc/ssl/etcd/client.pem --key /etc/ssl/etcd/client-key.pem -L https://192.168.2.2:2381/readyz?verbose
 

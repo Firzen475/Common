@@ -8,4 +8,7 @@ helm show values
 
 helm uninstall -h
 
+
+helm get manifest prometheus -n monitoring
+
 ```

@@ -1,0 +1,52 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor\PodMonitor (!!!)
+metadata:
+  name: my-app-monitor  # Уникальное имя ServiceMonitor
+  namespace: monitoring  # Пространство, где развернут Prometheus Operator (обычно `monitoring` или `default`)
+  labels:
+    team: devops  # Опционально: для группировки мониторов
+spec:
+  # Выбор Service по лейблам (должен совпадать с лейблами вашего Service)
+  selector:
+    matchLabels:
+      app: my-app  # Лейбл Service, который вы хотите мониторить
+
+  # Пространство имен, где искать Service (если отличается от namespace ServiceMonitor)
+  namespaceSelector:
+    matchNames:
+      - my-app-ns  # Namespace, где развернут ваш Service
+
+  # Список эндпоинтов для сбора метрик
+  endpoints\podMetricsEndpoints: (!!!)
+    - port: web  # Имя порта из Service (не номер!). Если порт не именован, используйте `http` или число.
+      path: /metrics  # Путь к метрикам (по умолчанию `/metrics`)
+      interval: 30s  # Опционально: интервал сбора (по умолчанию берется из Prometheus)
+      scheme: http  # http или https (по умолчанию http)
+      scrapeTimeout: 10s  # Максимальное время ожидания ответа
+      tlsConfig:  # Настройки TLS (если используется https)
+        insecureSkipVerify: false    # Игнорировать проверку сертификата (не для прода!)
+        # Указываем CA для проверки сертификата
+        ca:
+          secret:
+            name: prometheus-ca-cert
+            key: ca.crt
+        cert:
+          secret:
+            name: prometheus-client-cert
+            key: tls.crt
+        keySecret:
+          name: prometheus-client-cert
+          key: tls.key
+        serverName: metrics.my-app.example.com  # Должен совпадать с CN сертификата
+      # Дополнительные параметры:
+      params:  # Опционально: параметры запроса (например, для фильтрации)
+        module: [default]
+      honorLabels: true  # Не перезаписывать лейблы метрик (если важно сохранить исходные)
+      relabelings:  # Переименование мета-лейблов (редко требуется)
+        - sourceLabels: [__meta_kubernetes_pod_name]
+          targetLabel: pod_name
+
+  # Опционально: если метки Service должны быть добавлены к метрикам
+  targetLabels:
+    - app
+    - environment

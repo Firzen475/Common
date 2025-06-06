@@ -1,0 +1,79 @@
+spec:
+  template:
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution: # Часть правил может быть нарушена
+            - weight: 80  # Относительный вес (1-100) (OR)
+              preference:
+                matchExpressions:
+                  - key: disk-type (AND)
+                    operator: In | In | Exists | DoesNotExist | Gt | Lt
+                    values:
+                      - ssd
+            - weight: 20 # (OR)
+              preference:
+                matchFields:  # Используем matchFields вместо matchExpressions
+                  - key: metadata.labels # (AND)
+                    operator: In | In | Exists | DoesNotExist | Gt | Lt
+                    values:
+                      - hw/disk-type=nvme
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                    - amd64
+                - key: environment
+                  operator: NotIn
+                  values: [dev, staging]
+                - key: os-version
+                  operator: Gt
+                  values: [ "20.04" ]
+            - matchFields:  # Альтернативное условие (OR)
+                - key: metadata.name
+                  operator: In
+                  values:
+                    - special-node-01
+                    - special-node-02
+        
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: topology.kubernetes.io/zone
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values: [ "data-source" ]
+                matchLabelKeys: ["component"]
+                mismatchLabelKeys: ["temporary"]
+                namespaceSelector:
+                  matchExpressions:
+                    - key: tier
+                      operator: In
+                      values: [ "data" ]
+                namespaces: [NS1,NS2]
+
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: service
+                    operator: In
+                    values: [ "gpu-accelerator" ]
+              matchLabelKeys: [ "team" ]
+              mismatchLabelKeys: [ "experimental" ]
+              namespaceSelector:
+                matchExpressions:
+                  - key: purpose
+                    operator: In
+                    values: [ "ai-training" ]
+              namespaces: [NS1,NS2]
+              topologyKey: topology.kubernetes.io/zone
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+          requiredDuringSchedulingIgnoredDuringExecution:
+

@@ -1,0 +1,55 @@
+- hosts: control_main
+  become: true
+  tasks:
+    - name: Test pod. ghcr.io/fzen475/multitool:latest
+      kubernetes.core.k8s:
+        state: absent
+        wait: true
+        definition:
+          apiVersion: v1
+          kind: Pod
+          metadata:
+            name: test
+            namespace: secrets
+    - name: Test pod. ghcr.io/fzen475/multitool:latest
+      kubernetes.core.k8s:
+        state: present
+        wait: true
+        definition:
+          apiVersion: v1
+          kind: Pod
+          metadata:
+            name: test
+            namespace: secrets
+          spec:
+            containers:
+              - image: ghcr.io/fzen475/multitool:latest
+                imagePullPolicy: Always
+                name: test
+                resources: {}
+                command:
+                  - sh
+                  - -c
+                args:
+                  - tail -f /dev/null
+                volumeMounts:
+                  - name: vault-data-new
+                    mountPath: /vault-data-new
+                  - name: vault-data-old
+                    mountPath: /vault-data-old
+
+            dnsPolicy: ClusterFirst
+            tolerations:
+              - key: "node-role.kubernetes.io/control-plane"
+                operator: "Exists"
+                effect: "NoSchedule"
+            nodeSelector:
+              kubernetes.io/hostname: "control02"
+            volumes:
+              - name: vault-data-new
+                hostPath:
+                  path: /vault-data/
+                  type: Directory
+              - name: vault-data-old
+                persistentVolumeClaim:
+                  claimName: data-vault-0

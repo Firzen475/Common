@@ -14,7 +14,19 @@ curl -k --cacert /tmp/certs/ca.crt --header "X-Vault-Token: $(cat /tmp/token)" -
 curl -k --cacert /tmp/certs/ca.crt --header "X-Vault-Token: $(cat /tmp/token)" --request POST --data '{"policies": ["pgadmin4"],"bound_service_account_names": $(echo $AC),"bound_service_account_namespaces":$(echo $NS)}' https://vault.secrets.svc:8200/v1/auth/kubernetes/role/pgadmin4;
 ```
 
-
+```shell
+kubectl exec -it -n secrets            pod/vault-0 -- ash
+export VAULT_ADDR='https://vault.secrets.svc:8200'
+export VAULT_CACERT='/tmp/certs/ca.crt'
+export VAULT_TOKEN="hvs.txffZU9X6qIOb1pZxX6wk2RH"
+echo "{\"path\": \"\",\"max_leases\": 1000}" > ./payload.json
+curl -k \
+    --request POST \
+    --header "X-Vault-Token: hvs.txffZU9X6qIOb1pZxX6wk2RH" \
+    --data @/tmp/payload.json \
+    https://vault.secrets.svc:8200/v1/sys/quotas/lease-count/global-lease-count-quota
+vault write sys/quotas/lease-count/global-lease-count-quota max_leases=10000
+```
 
 
 ## Настройка

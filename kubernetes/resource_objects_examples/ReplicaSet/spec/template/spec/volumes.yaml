@@ -1,0 +1,91 @@
+spec:
+  template:
+    spec:
+      volumes:
+        - name: shared-dir
+          emptyDir:
+            medium: Memory  # Будет хранить данные в оперативной памяти! Учитывается в лимитах pod.
+            sizeLimit: 500Mi
+        - name: example-volume
+          # mount /data/foo, but only if that directory already exists
+          hostPath:
+            path: /data/foo # directory location on host
+            type: DirectoryOrCreate | Directory | FileOrCreate | File | Socket |  # this field is optional
+        - name: pvc
+          persistentVolumeClaim:
+            claimName: pvc1
+            readOnly: false
+        - name: cm
+          configMap:
+            name: cm-name
+            optional: false
+            defaultMode: 0644
+            items:
+              - key: file1
+                path: file1
+              - key: file2
+                path: file2
+        - name: secret
+          secret:
+            secretName: secret-name
+            optional: false
+            defaultMode: 0420
+            items:
+              - key: file1
+                path: file1
+              - key: file2
+                path: file2
+        - name: podinfo
+          downwardAPI:
+            defaultMode: 0420
+            items:
+              - path: "pod_name"
+                fieldRef:
+                  fieldPath: metadata.name
+              - path: "pod_namespace"
+                fieldRef:
+                  fieldPath: metadata.namespace
+              - path: "labels"
+                fieldRef:
+                  fieldPath: metadata.labels
+              - path: "annotations"
+                fieldRef:
+                  fieldPath: metadata.annotations
+              - path: "cpu_limit"
+                resourceFieldRef:
+                  containerName: main
+                  resource: limits.cpu
+              - path: "mem_limit"
+                resourceFieldRef:
+                  containerName: main
+                  resource: limits.memory
+        - name: multi-resource
+          projected:
+            defaultMode: 0420
+            sources:
+              - clusterTrustBundle:
+                name: my-cluster-ca  # Имя (kind: ClusterTrustBundle) Не часть CertManager. Статический сертификат.
+                path: ca.crt         # Имя файла, в который запишется сертификат
+                labelSelector: []    # Действует только если задано signerName. Взаимоисключающее с именем. Если не задано, интерпретируется как «ничего не совпадать». Если задано, но пусто, интерпретируется как «все совпадать».
+                optional: false
+                signerName: ""       # Выберите все ClusterTrustBundles, которые соответствуют этому имени подписчика (kind: ClusterTrustBundle => spec.signerName: "kubernetes.io/my-org-ca"). Взаимоисключающие с именем. Содержимое всех выбранных ClusterTrustBundles будет унифицировано и дедуплицировано.
+              - configMap:
+                  name: cm1
+                  optional: false
+                  items:
+                    - key: file1
+                      path: dir1/file1
+              - downwardAPI:
+                items:
+                  - path: "pod_name"
+                    fieldRef:
+                      fieldPath: metadata.name
+              - secret:
+                  items:
+                    - key: file1
+                      path: dir1/file1
+                  name: secret1
+              - serviceAccountToken:
+                audience: "my-external-service.com"  # Специфичная аудитория
+                expirationSeconds: 86400  # 24 часа
+                path: token # Имя файла

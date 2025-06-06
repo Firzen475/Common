@@ -1,0 +1,27 @@
+# Deploy
+spec:
+  strategy:
+    type: RollingUpdate | Recreate  # Стратегия обновления (обязательное поле)
+    rollingUpdate:                  # Настройки RollingUpdate (если type: RollingUpdate)
+      maxUnavailable: число | %     # Максимальное количество недоступных подов
+      maxSurge: число | %           # Максимальное количество дополнительных подов
+                                    # Сначала создаст больше максимума, потом удалит старые
+---
+# StatefulSet
+spec:
+  updateStrategy:
+    type: RollingUpdate | OnDelete  # Стратегия обновления (обязательное поле)
+    rollingUpdate:                  # Настройки RollingUpdate (если type: RollingUpdate)
+      partition: 3                  # Обновляются только поды с индексами >=3
+                                    # Постепенно обновляем манифест
+      maxUnavailable: число | %     # Максимум недоступных подов во время обновления
+      maxSurge: число | %           # Максимальное количество дополнительных подов
+                                    # Сначала создаст больше максимума, потом удалит старые
+---
+# DaemonSet
+spec:
+  updateStrategy:
+    type: RollingUpdate | OnDelete  # Стратегия обновления (обязательное поле)
+    rollingUpdate:                  # Настройки RollingUpdate (если type: RollingUpdate)
+      maxUnavailable: число | %     # Максимум недоступных подов во время обновления
+
