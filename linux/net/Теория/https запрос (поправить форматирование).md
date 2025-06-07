@@ -26,9 +26,10 @@ TLS 1.2
   
 ```mermaid
 %%{init: {
-  'theme': 'default',
-  'fontSize': '16',
-  'themeCSS': 'text { font-size: 16px !important; }',
+  'theme': 'dark',
+  'fontSize': '32px',
+  'themeCSS': "text { font-size: 16px !important; }, .actor { margin: 10px 20px 15px 5px; !important; }",
+  
   'fontFamily': 'sans-serif',
   'sequence': {
 

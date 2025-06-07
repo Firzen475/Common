@@ -10,7 +10,8 @@ flowchart TB
     subgraph L2
         direction TB
         presentation["7.Представительский"]
-        
+        TLS["TLS1.2_1.3*"]
+        click TLS "#TLS" "Перейти к разделу"
     end
 
 
@@ -112,4 +113,44 @@ direction TB
 end
 
 ```
-### Test
+### TLS
+```mermaid
+%%{init: {
+  'theme': 'dark',
+  'fontSize': '16',
+  'themeCSS': 'text { font-size: 16px !important; }',
+  'fontFamily': 'sans-serif',
+  'sequence': {
+
+  }
+}}%%
+sequenceDiagram
+    Хранилище(клиент) ->> Клиент: **Client Random**
+    opt Client Hello
+        Клиент->>Сервер: версия TLS<br>Client Random<br>Список наборов шифров
+    end
+    Сервер ->> Хранилище(сервер): **Client Random**<br>**Server Random**<br>Открытый сертификат сервера
+    opt Server Hello
+        Сервер->>Клиент: **Server Key Exchange**<br>**Server Random**<br>Открытый сертификат сервера
+    end
+    Клиент->>Клиент: Подлинность сервера
+    Клиент->>Хранилище(клиент): **Server Key Exchange**<br>**Server Random**<br>Открытый сертификат сервера
+    Клиент ->> Клиент: **pre-master secret**<br>(**Server Key Exchange** + **Client Key Exchange**)
+    alt В одной инструкции передаётся<br>pre-master secret
+        opt Change Cipher Spec + FINISH
+            Клиент->>Сервер: [**pre-master secret**]<br>(Зашифрован серверным открытым ключом)<br>Хэш сообщений
+        end
+        Сервер ->> Хранилище(сервер): [**pre-master secret**]<br>(Расшифрован)
+    else В другой инструкции передаётся<br>Client Key Exchange
+        opt Change Cipher Spec + FINISH
+            Клиент->>Сервер: [**Client Key Exchange**]<br>(Зашифрован серверным открытым ключом)<br>Хэш сообщений
+        end
+        Сервер ->> Хранилище(сервер): **pre-master secret**<br>(**Server Key Exchange** + **Client Key Exchange**)
+    end
+    Клиент ->> Хранилище(клиент): MASTER SECRET (СИМЕТРИЧНЫЙ)<br> **Client Random** + **Server Random** + **pre-master secret**<br>проверка хэша
+    Сервер ->> Хранилище(сервер): MASTER SECRET (СИМЕТРИЧНЫЙ)<br> **Client Random** + **Server Random** + **pre-master secret**<br>проверка хэша
+    opt Change Cipher Spec + FINISH
+        Сервер ->> Клиент: Зашифрованные данные
+    end
+
+```
