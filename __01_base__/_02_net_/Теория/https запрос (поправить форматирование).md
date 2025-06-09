@@ -28,7 +28,7 @@ TLS 1.2
 %%{init: {
   'theme': 'dark',
   'fontSize': '16px',
-  'themeCSS': "text { font-size: 24px !important; }, .actor { font-weight: 700 !important; }",
+  'themeCSS': "text { font-size: 16px !important; }, .actor { font-weight: 600 !important; }",
   
   'fontFamily': 'sans-serif',
   'sequence': {
@@ -36,32 +36,32 @@ TLS 1.2
   }
 }}%%
 sequenceDiagram
-    Хранилище(клиент) ->> Клиент: **Client Random**
+    note over Клиент: **Client Random**<br/>**Client Key Exchange**
+    note over Сервер: **Server Random**<br>**Server Key Exchange**<br>Открытый ключ<br>Сертификат
     opt Client Hello
         Клиент->>Сервер: версия TLS<br>Client Random<br>Список наборов шифров
     end
-    Сервер ->> Хранилище(сервер): **Client Random**<br>**Server Random**<br>Открытый сертификат сервера
+    note over Сервер: **Client Random**
     opt Server Hello
-        Сервер->>Клиент: **Server Key Exchange**<br>**Server Random**<br>Открытый сертификат сервера
+        Сервер->>Клиент: **Server Random**<br>**Server Key Exchange**<br>Открытый ключ<br>Сертификат
     end
-    Клиент->>Клиент: Подлинность сервера
-    Клиент->>Хранилище(клиент): **Server Key Exchange**<br>**Server Random**<br>Открытый сертификат сервера
-    Клиент ->> Клиент: **pre-master secret**<br>(**Server Key Exchange** + **Client Key Exchange**)
+    note over Клиент: **Server Random**<br>**Server Key Exchange**<br>Открытый ключ
+    Клиент ->> Клиент: Подлинность сервера<br>**pre-master secret**<br>(**Server Key Exchange** + **Client Key Exchange**)
     alt В одной инструкции передаётся<br>pre-master secret
         opt Change Cipher Spec + FINISH
-            Клиент->>Сервер: [**pre-master secret**]<br>(Зашифрован серверным открытым ключом)<br>Хэш сообщений
+            Клиент->>Сервер: Хэш сообщений<br>{**pre-master secret**}<br>{DATA}
         end
-        Сервер ->> Хранилище(сервер): [**pre-master secret**]<br>(Расшифрован)
+        Сервер->>Сервер: Проверка Хэша<br>Расшифровка
     else В другой инструкции передаётся<br>Client Key Exchange
         opt Change Cipher Spec + FINISH
-            Клиент->Сервер: [**Client Key Exchange**]<br>(Зашифрован серверным открытым ключом)<br>Хэш сообщений
+            Клиент->Сервер: {**Client Key Exchange**}<br>Хэш сообщений<br>{DATA}
         end
-        Сервер ->> Хранилище(сервер): **pre-master secret**<br>(**Server Key Exchange** + **Client Key Exchange**)
+        Сервер->>Сервер: Проверка Хэша<br>Расшифровка<br>**pre-master secret**
     end
-    Клиент ->> Хранилище(клиент): MASTER SECRET (СИМЕТРИЧНЫЙ)<br> **Client Random** + **Server Random** + **pre-master secret**<br>проверка хэша
-    Сервер ->> Хранилище(сервер): MASTER SECRET (СИМЕТРИЧНЫЙ)<br> **Client Random** + **Server Random** + **pre-master secret**<br>проверка хэша
+    note over Сервер: [**pre-master secret**]
+    note over Клиент,Сервер: MASTER SECRET<br>(СИМЕТРИЧНЫЙ)<br> CR + SR + pre-master
     opt Change Cipher Spec + FINISH
-        Сервер ->> Клиент: Зашифрованные данные
+        Сервер ->> Клиент: {RESULT}
     end
 
 ```
@@ -85,6 +85,61 @@ sequenceDiagram
 ```
 TLS 1.3
 
+
+```mermaid
+%%{init: {
+  'theme': 'dark',
+  'fontSize': '16px',
+  'themeCSS': "text { font-size: 16px !important; }, .actor { font-weight: 600 !important; }",
+  
+  'fontFamily': 'sans-serif',
+  'sequence': {
+
+  }
+}}%%
+sequenceDiagram
+    alt Обычное рукопожатие
+        note over Клиент: **Client Random**<br/>**(C)Key share private**<br/>**(C)Key share open**
+        note over Сервер: **Server Random**<br>**(S)Key share private**<br/>**(S)Key share open**<br>Открытый ключ<br>Сертификат
+        opt Client Hello
+            Клиент->>Сервер: **Client Random**<br>**(C)Key share open**<br>версия TLS<br>Список наборов шифров
+        end
+        note over Сервер: pre-master = ECDH(**(C)Key share open**, **(S)Key share private**)<br>MASTER SECRET (СИМЕТРИЧНЫЙ) = CR + SR + pre-master
+        opt Server Hello
+            Сервер->>Клиент: **Server Random**<br>**(S)Key share open**<br>Открытый ключ<br>Сертификат
+        end
+        note over Клиент: pre-master = ECDH(**(S)Key share open**, **(C)Key share private**)<br>MASTER SECRET (СИМЕТРИЧНЫЙ) = CR + SR + pre-master
+        opt Change Cipher Spec + FINISH
+            Клиент->>Сервер: Хэш сообщений<br>{DATA}
+        end
+        opt Change Cipher Spec + FINISH
+            Сервер ->> Клиент: {RESULT}
+        end
+    else Pre Shared Key
+        note over Клиент: pre_shared_key
+        participant "some longname with **//styling//**"
+    end
+    
+    
+    
+    
+    
+    note over Клиент: **Server Random**<br>**Server Key Exchange**<br>Открытый ключ
+    Клиент ->> Клиент: Подлинность сервера<br>**pre-master secret**<br>(**Server Key Exchange** + **Client Key Exchange**)
+    alt В одной инструкции передаётся<br>pre-master secret
+        
+        Сервер->>Сервер: Проверка Хэша<br>Расшифровка
+    else В другой инструкции передаётся<br>Client Key Exchange
+        opt Change Cipher Spec + FINISH
+            Клиент->Сервер: {**Client Key Exchange**}<br>Хэш сообщений<br>{DATA}
+        end
+        Сервер->>Сервер: Проверка Хэша<br>Расшифровка<br>**pre-master secret**
+    end
+    note over Сервер: [**pre-master secret**]
+    note over Клиент,Сервер: MASTER SECRET<br>(СИМЕТРИЧНЫЙ)<br> CR + SR + pre-master
+    
+
+```
 
 ```
        Client                                           Server

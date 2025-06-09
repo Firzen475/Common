@@ -1,17 +1,35 @@
+
+<a href='../../__01_base__/_02_net_/L7/Protocol.md'>works</a>
+
+### Схема
+
+
+[Оглавление](../README.md#оглавление)
+
 ```mermaid
 flowchart TB
-
-    subgraph L1
+    subgraph L7
         direction TB
         application["7.Прикладной"]
+        subgraph Protocol
+            HTTP_REST_GRPC_GRAPHQL["HTTP_REST_GRPC_GRAPHQL*"]
+            click HTTP_REST_GRPC_GRAPHQL "../../__01_base__/_02_net_/L7/Protocol.md#HTTP_FTP_DNS" "Перейти к разделу"
+            
+            
+        end
         HTTP_FTP_DNS["HTTP_FTP_DNS*"]
-        click HTTP_FTP_DNS "#HTTP_FTP_DNS" "Перейти к разделу"
+        
     end
-    subgraph L2
+    subgraph L6
         direction TB
         presentation["7.Представительский"]
-        TLS["TLS1.2_1.3*"]
-        click TLS "#TLS" "Перейти к разделу"
+        subgraph TLS
+            TLS12["TLS 1.2*"]
+            click TLS12 "#TLS-12" "Перейти к разделу"
+            TLS13["TLS 1.3*"]
+            click TLS13 "#TLS-13" "Перейти к разделу"
+        end
+        
     end
 
 
@@ -20,11 +38,29 @@ flowchart TB
 
 
 
-    L1 --> L2
+    L7 --> L6
 
 ```
 
-###  HTTP_FTP_DNS
+### HTTP_FTP_DNS 
+[Начало](./README.md#схема) [Оглавление](../README.md#оглавление)
+
+```
+
+{% include "../../linux/net/Теория/web.md?anchor=web_protocol" %}
+
+```
+
+!INCLUDE {% include "../../linux/net/Теория/web.md?anchor=web_protocol" %}
+
+[SNIPPET](../../__01_base__/_02_net_/Теория/web.md?anchor=web_protocol)
+
+```@eval
+using Markdown
+Markdown.parse_file(joinpath("..", "src", "../../linux/net/Теория/web.md"))
+```
+
+#include "../../linux/net/Теория/web.md"
 
 ```mermaid
 flowchart TB
@@ -113,44 +149,51 @@ direction TB
 end
 
 ```
-### TLS
+### TLS 1.2
+
+[Начало](./README.md#схема) [Оглавление](../README.md#оглавление)
 ```mermaid
 %%{init: {
   'theme': 'dark',
-  'fontSize': '16',
-  'themeCSS': 'text { font-size: 16px !important; }',
+  'fontSize': '16px',
+  'themeCSS': "text { font-size: 16px !important; }, .actor { font-weight: 600 !important; }",
+  
   'fontFamily': 'sans-serif',
   'sequence': {
 
   }
 }}%%
 sequenceDiagram
-    Хранилище(клиент) ->> Клиент: **Client Random**
+    note over Клиент: **Client Random**<br/>**Client Key Exchange**
+    note over Сервер: **Server Random**<br>**Server Key Exchange**<br>Открытый ключ<br>Сертификат
     opt Client Hello
         Клиент->>Сервер: версия TLS<br>Client Random<br>Список наборов шифров
     end
-    Сервер ->> Хранилище(сервер): **Client Random**<br>**Server Random**<br>Открытый сертификат сервера
+    note over Сервер: **Client Random**
     opt Server Hello
-        Сервер->>Клиент: **Server Key Exchange**<br>**Server Random**<br>Открытый сертификат сервера
+        Сервер->>Клиент: **Server Random**<br>**Server Key Exchange**<br>Открытый ключ<br>Сертификат
     end
-    Клиент->>Клиент: Подлинность сервера
-    Клиент->>Хранилище(клиент): **Server Key Exchange**<br>**Server Random**<br>Открытый сертификат сервера
-    Клиент ->> Клиент: **pre-master secret**<br>(**Server Key Exchange** + **Client Key Exchange**)
+    note over Клиент: **Server Random**<br>**Server Key Exchange**<br>Открытый ключ
+    Клиент ->> Клиент: Подлинность сервера<br>**pre-master secret**<br>(**Server Key Exchange** + **Client Key Exchange**)
     alt В одной инструкции передаётся<br>pre-master secret
         opt Change Cipher Spec + FINISH
-            Клиент->>Сервер: [**pre-master secret**]<br>(Зашифрован серверным открытым ключом)<br>Хэш сообщений
+            Клиент->>Сервер: Хэш сообщений<br>{**pre-master secret**}<br>{DATA}
         end
-        Сервер ->> Хранилище(сервер): [**pre-master secret**]<br>(Расшифрован)
+        Сервер->>Сервер: Проверка Хэша<br>Расшифровка
     else В другой инструкции передаётся<br>Client Key Exchange
         opt Change Cipher Spec + FINISH
-            Клиент->>Сервер: [**Client Key Exchange**]<br>(Зашифрован серверным открытым ключом)<br>Хэш сообщений
+            Клиент->Сервер: {**Client Key Exchange**}<br>Хэш сообщений<br>{DATA}
         end
-        Сервер ->> Хранилище(сервер): **pre-master secret**<br>(**Server Key Exchange** + **Client Key Exchange**)
+        Сервер->>Сервер: Проверка Хэша<br>Расшифровка<br>**pre-master secret**
     end
-    Клиент ->> Хранилище(клиент): MASTER SECRET (СИМЕТРИЧНЫЙ)<br> **Client Random** + **Server Random** + **pre-master secret**<br>проверка хэша
-    Сервер ->> Хранилище(сервер): MASTER SECRET (СИМЕТРИЧНЫЙ)<br> **Client Random** + **Server Random** + **pre-master secret**<br>проверка хэша
+    note over Сервер: [**pre-master secret**]
+    note over Клиент,Сервер: MASTER SECRET<br>(СИМЕТРИЧНЫЙ)<br> CR + SR + pre-master
     opt Change Cipher Spec + FINISH
-        Сервер ->> Клиент: Зашифрованные данные
+        Сервер ->> Клиент: {RESULT}
     end
 
 ```
+
+### TLS 1.3
+
+[Начало](./README.md#схема) [Оглавление](../README.md#оглавление)

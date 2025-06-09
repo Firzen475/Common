@@ -1,59 +1,22 @@
-# Коды
-| Код состояния                  | Описание                                                      |
-|--------------------------------|---------------------------------------------------------------|
-| **1xx: Информационные ответы** |                                                               |
-| 100                            | Сервер ожидает оставшуюся часть запроса.                      |
-| 101                            | Сервер согласен сменить протокол (например, на WebSocket).    |
-| 102                            | Сервер обрабатывает запрос, но ответ ещё не готов.            |
-| **2xx: Успешные ответы**       |
-| 200                            | Успешный запрос (например, `curl -I https://example.com`).    |
-| 201                            | Ресурс успешно создан (POST-запрос).                          |
-| 202                            | Запрос принят, но ещё не обработан.                           |
-| 204                            | Успешный запрос, но тело ответа пусто (DELETE-запрос).        |
-| 206                            | Сервер отправил часть данных (используется в докачке файлов). |
-| **3xx: Перенаправления**       |
-| 301                            | Ресурс перемещён навсегда (редирект на новый URL).            |
-| 302                            | Временный редирект.                                           |
-| 304                            | Контент не изменился (кеширование).                           |
-| 307                            | Временный редирект с сохранением метода запроса.              |
-| 308                            | Постоянный редирект с сохранением метода запроса.             |
-| **4xx: Ошибки клиента**        |
-| 400                            | Неправильный синтаксис запроса (например, неверный JSON).     |
-| 401                            | Требуется аутентификация (например, `curl -u user:pass URL`). |
-| 403                            | Доступ запрещён (нет прав).                                   |
-| 404                            | Ресурс не найден (`curl https://example.com/nonexistent`).    |
-| 405                            | Метод не поддерживается (например, POST вместо GET).          |
-| 408                            | Сервер ожидал запрос слишком долго.                           |
-| 429                            | Превышен лимит запросов (DDoS-защита).                        |
-| **5xx: Ошибки сервера**        |
-| 500                            | Ошибка на стороне сервера (например, сбой в коде).            |
-| 502                            | Проблема с прокси-сервером или upstream.                      |
-| 503                            | Сервер временно недоступен (перегрузка/техработы).            |
-| 504                            | Прокси-сервер не дождался ответа от upstream.                 |
-| 507                            | Не хватает места на сервере.                                  |
-| 508                            | Обнаружено бесконечное перенаправление.                       |
 
-# Схема 
+# Схема
+
+<!-- ANCHOR: web_protocol -->
 
 ```mermaid
 flowchart LR
 subgraph services
     direction TB
-subgraph l3
-    TCP
-    UDP
-    
-end
-    subgraph l6_TLS
-        TLS
-        DTLS
+    subgraph l3/L6
+        TCP/TLS
+        UDP/DTLS
     end
-    subgraph l7_Связь
+    subgraph l7
         direction TB
         subgraph Транспорт
             HTTP["HTTP1\2\3-QUIC"]
             WebSocket::WebTransport
-            
+            HTTP -.TCP HTTP-апгрейд 101<br>UDP HTTP/3.-> WebSocket::WebTransport
         end
         subgraph Медиа
             WebRTC
@@ -65,31 +28,27 @@ end
         end
 
         subgraph l7_proto
+            direction TB
             REST_SOAP
             gRPC
             GraphQL
             MQTT
             
         end
-HTTP --TCP HTTP-апгрейд 101--> WebSocket::WebTransport
-        HTTP --UDP HTTP/3--> WebSocket::WebTransport
+
+ 
         WebSocket::WebTransport --метаданные--> WebRTC
     end
-
-    TCP --> TLS 
-    UDP --> DTLS
-    DTLS --> WebRTC
-    TLS --Редко--> WebRTC
-    TLS --> MQTT
-    UDP --HTTP3--> HTTP
-    TLS --> HTTP --> REST_SOAP
-    HTTP --HTTP2\HTTP3--> gRPC
-    HTTP --> GraphQL
-    WebSocket::WebTransport --> MQTT
-    WebSocket::WebTransport --Подписки--> GraphQL
+    UDP/DTLS --> WebRTC
+    l3/L6 --> HTTP
+    UDP/DTLS --UDP->HTTP3--> HTTP
+    WebSocket::WebTransport --HTTP / WebSocket--> l7_proto
     
 end
 ```
+
+<!-- END_ANCHOR: web_protocol -->
+
 # Транспорт
 ## WebSocket
 Обеспечивает полнодуплексную (двустороннюю) коммуникацию между клиентом и сервером через единственное TCP-соединение.
