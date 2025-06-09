@@ -1,6 +1,6 @@
 
 # Схема
-[Оглавление](../../../__00_Собес__/README.md#оглавление) _____ [Схема](../../../__00_Собес__/01_Сеть/README.md#схема)
+[Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема)
 <!-- ANCHOR: web_protocol -->
 
 ```mermaid
@@ -14,8 +14,8 @@ subgraph services
     subgraph l7
         direction TB
         subgraph Транспорт
-            HTTP[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L4/TCP_UDP.md#TCP'>HTTP1\2\3-QUIC</a>]
-            WebSocket::WebTransport
+            HTTP[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/HTTP.md'>HTTP1\2\3-QUIC</a>]
+            WebSocket::WebTransport[<a href='#WebSocket'>WebSocket:</a>::<a href='#WebTransport'>WebTransport</a>]
             HTTP -.TCP HTTP-апгрейд 101<br>UDP HTTP/3.-> WebSocket::WebTransport
         end
         subgraph Медиа
@@ -46,18 +46,37 @@ subgraph services
     
 end
 ```
-
 <!-- END_ANCHOR: web_protocol -->
 
-# Транспорт
+## Сравнение http
+
+[Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема) => [Protocols](./Protocols.md#схема)
+
+| Характеристика          | HTTP/1.1                       | HTTP/2                   | HTTP/3 (QUIC)       |
+|-------------------------|--------------------------------|--------------------------|---------------------|
+| **Транспорт**           | TCP                            | TCP                      | UDP                 |
+| **Мультиплексирование** | ❌ (нужны несколько соединений) | ✅ (в одном соединении)   | ✅ (лучше из-за UDP) |
+| **Сжатие заголовков**   | ❌                              | ✅ (HPACK)                | ✅ (QPACK)           |
+| **Приоритизация**       | ❌                              | ✅                        | ✅                   |
+| **Server Push**         | ❌                              | ✅                        | ✅                   |
+| **Шифрование**          | Только с HTTPS                 | Только с HTTPS           | Встроено в QUIC     |
+| **Задержки**            | Высокие (TCP + HOL)            | Лучше, но есть HOL в TCP | Минимальные (UDP)   |
+
 ## WebSocket
+
+[Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема) => [Protocols](./Protocols.md#схема)
+
 Обеспечивает полнодуплексную (двустороннюю) коммуникацию между клиентом и сервером через единственное TCP-соединение.
 * HTTP --> Connection: Upgrade
 * Постоянное соединение:
   * Text
   * Binary
   * Ping/Pong: для проверки соединения
+
 ## WebTransport
+
+[Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема) => [Protocols](./Protocols.md#схема)
+
 Замена WebSocket
 * Множественные потоки
 * Выбор режимов: 

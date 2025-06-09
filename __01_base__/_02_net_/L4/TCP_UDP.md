@@ -1,5 +1,6 @@
 
 ## TCP
+[Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема) => [L7/Protocols](../L7/Protocols.md)
 
 TCP 3-way handshake (SYN → SYN-ACK → ACK).  
 Вы звоните другу (SYN).  
@@ -10,4 +11,4 @@ TCP 3-way handshake (SYN → SYN-ACK → ACK).
 После разговора вы оба говорите "Пока!" (FIN/FIN-ACK) → сессия закрыта.
 
 ## UDP
-
+[Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема) => [L7/Protocols](../L7/Protocols.md)
