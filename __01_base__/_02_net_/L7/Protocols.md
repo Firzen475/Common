@@ -14,7 +14,9 @@ subgraph services
     subgraph l7
         direction TB
         subgraph Транспорт
-            HTTP[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/HTTP.md'>HTTP1\2\3-QUIC</a>]
+            HTTP[<a>HTTP1\2\3-QUIC]
+            click HTTP "#http" "Перейти к разделу"
+            
             WebSocket::WebTransport[<a href='#WebSocket'>WebSocket:</a>::<a href='#WebTransport'>WebTransport</a>]
             HTTP -.TCP HTTP-апгрейд 101<br>UDP HTTP/3.-> WebSocket::WebTransport
         end
@@ -48,7 +50,7 @@ end
 ```
 <!-- END_ANCHOR: web_protocol -->
 
-## Сравнение http
+## HTTP
 
 [Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема) => [Protocols](./Protocols.md#схема)
 
