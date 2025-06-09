@@ -16,11 +16,11 @@ subgraph services
         subgraph Транспорт
             HTTP[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Protocols.md#http'>HTTP1\2\3-QUIC<a>]
             
-            WebSocket::WebTransport[<a href='#WebSocket'>WebSocket:</a>::<a href='#WebTransport'>WebTransport</a>]
+            WebSocket::WebTransport[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Protocols.md#WebSocket'>WebSocket:</a>::<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Protocols.md#WebTransport'>WebTransport</a>]
             HTTP -.TCP HTTP-апгрейд 101<br>UDP HTTP/3.-> WebSocket::WebTransport
         end
         subgraph Медиа
-            WebRTC
+            WebRTC[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Protocols.md#WebRTC'>WebRTC<a>]
             TURN
             SFU
             
@@ -30,10 +30,10 @@ subgraph services
 
         subgraph l7_proto
             direction TB
-            REST_SOAP
-            gRPC
-            GraphQL
-            MQTT
+            REST_SOAP[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Protocols.md#REST-API'>REST_SOAP<a>]
+            gRPC[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Protocols.md#gRPC'>gRPC<a>]
+            GraphQL[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Protocols.md#GraphQL'>GraphQL<a>]
+            MQTT[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Protocols.md#MQTT'>MQTT<a>]
             
         end
 
@@ -84,8 +84,9 @@ end
   * надежный(как TCP); 
   * ненадежный(как UDP)
 
-# Интерфейсы
 ## REST API
+[Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема) => [Protocols](./Protocols.md#схема)
+
 * Набор конечных точек
 * Передача - запрос\ответ
 * Использует HTTP методы для взаимодействия [GET,POST,PUT,PATCH,DELETE]
@@ -96,6 +97,8 @@ end
   * OAuth/OAuth2
   * JWT 
 ## gRPC
+[Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема) => [Protocols](./Protocols.md#схема)
+
 Удалённый вызов процедур. 
 * Данные передаются в бинарном виде (серилизация)
 * Потоковая передача - встроенная в HTTP/2/3.
@@ -106,6 +109,8 @@ end
   3) Запустить grpc сервер в коде и привязать собранный класс.
   4) Подключиться к серверу и вызвать класс.
 ## GraphQL
+[Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема) => [Protocols](./Protocols.md#схема)
+
 Интерфейс запросов (похож на SQL)
 * Данные передаются в json.
 * Потоковая передача WebSocket:
@@ -123,6 +128,8 @@ end
     * Получить json в ответ.
     * Создать подписку.
 ## MQTT
+[Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема) => [Protocols](./Protocols.md#схема)
+
 Передача небольших сообщений в формате подписки.
 * Работает поверх TCP.
 * Данные передаются в бинарном виде (серилизация)
@@ -141,8 +148,9 @@ end
     * Подключаемся к брокеру.
     * В отдельном потоке читаем топик в бесконечном цикле.
 
-# Медиа
 ## WebRTC
+[Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема) => [Protocols](./Protocols.md#схема)
+
 Передача аудио\видео потоков.
 * Работает из браузера (node.js).
 * Доступ к вэбке.
