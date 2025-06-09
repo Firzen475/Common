@@ -1,6 +1,6 @@
 
 # Схема
-[Оглавление](../../../__00_Собес__/README.md#оглавление) [Схема](../../../__00_Собес__/01_Сеть/README.md#схема)
+[Оглавление](../../../__00_Собес__/README.md#оглавление) _____ [Схема](../../../__00_Собес__/01_Сеть/README.md#схема)
 <!-- ANCHOR: web_protocol -->
 
 ```mermaid
@@ -8,7 +8,7 @@ flowchart LR
 subgraph services
     direction TB
     subgraph l3/L6
-        TCP/TLS
+        TCP/TLS[<a href='../../__01_base__/_02_net_/L7/Protocol.md'>TCP</a>/<a href='../../__01_base__/_02_net_/L7/Protocol.md'>TLS</a>]
         UDP/DTLS
     end
     subgraph l7
