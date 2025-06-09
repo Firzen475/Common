@@ -8,7 +8,7 @@ flowchart LR
 subgraph services
     direction TB
     subgraph l3/L6
-        TCP/TLS[<a href='../../__01_base__/_02_net_/L7/Protocol.md'>TCP</a>/<a href='../../__01_base__/_02_net_/L7/Protocol.md'>TLS</a>]
+        TCP/TLS[<a href='../../__01_base__/_02_net_/L7/Protocol.md'>TCP</a>/<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L6/TLS.md'>TLS</a>]
         UDP/DTLS
     end
     subgraph l7

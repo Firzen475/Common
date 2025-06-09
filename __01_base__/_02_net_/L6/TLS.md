@@ -1,29 +1,12 @@
-Полный жизненный цикл HTTPS-запроса через уровни OSI
-
-Итоговая последовательность
-DNS-запрос (если IP не в кеше).
-
-ARP-запрос (если MAC шлюза неизвестен).
-
-TCP 3-way handshake (SYN → SYN-ACK → ACK).
-Вы звоните другу (SYN).
-Друг поднимает трубку и говорит "Алло!" (SYN-ACK).
-Вы отвечаете "Привет!" (ACK) → соединение установлено.
 
 
+[TLS 1.3](#TLS-13)
 
-TLS handshake (аутентификация + шифрование).
-TLS 1.2 
-* Client Random (случайное число от клиента, отправлено в Client Hello). 
-* Server Random (случайное число от сервера, отправлено в Server Hello). 
-* Pre-Master Secret (временный ключ, созданный клиентом отправляется на сервер, зашифрованный публичным ключём).
-  * Расшифровать можно только приватным ключём сервера.
-* Сервер вычисляет Master Secret 
-  * Pre-Master Secret + Client Random + Server Random обрабатываются с помощью функции PRF (Pseudo-Random Function).
-* Server Finished (сообщение зашифровано Master Secret)
-* Client Finished (сообщение зашифровано Master Secret)
+[Оглавление](../../../__00_Собес__/README.md#оглавление) _____ [Схема](../../../__00_Собес__/01_Сеть/README.md#схема)
 
-  
+## TLS 1.2
+
+
 ```mermaid
 %%{init: {
   'theme': 'dark',
@@ -65,26 +48,9 @@ sequenceDiagram
     end
 
 ```
+## TLS 1.3
 
-
-```
-Клиент                                      Сервер
-  |                                            |
-  | --- Client Hello (Client Random) --------> |
-  | <-- Server Hello (Server Random) --------- |
-  | <-- Certificate (Публичный ключ сервера) - |
-  | -- Вычисляет (Pre-Master Secret)           |
-  | -- Encrypted Pre-Master Secret (RSA) ----> |
-  |          (зашифровано публичным ключом)    |
-  |               Вычисляет (Master Secret) -- |
-  | <-- Server Finished ---------------------- |
-  | -- Вычисляет (Master Secret)               | 
-  | --- Client Finished ---------------------> |
-  |                                            |
-  | === Зашифрованный трафик (AES-256) ======> |
-```
-TLS 1.3
-
+[Оглавление](../../../__00_Собес__/README.md#оглавление) _____ [Схема](../../../__00_Собес__/01_Сеть/README.md#схема)
 
 ```mermaid
 %%{init: {
@@ -98,7 +64,7 @@ TLS 1.3
   }
 }}%%
 sequenceDiagram
-    alt Обычное рукопожатие
+    alt Обычное рукопожатие 1-RTT
         note over Клиент: **Client Random**<br/>**(C)Key share private**<br/>**(C)Key share open**
         note over Сервер: **Server Random**<br>**(S)Key share private**<br/>**(S)Key share open**<br>Открытый ключ<br>Сертификат
         opt Client Hello
@@ -115,35 +81,21 @@ sequenceDiagram
         opt Change Cipher Spec + FINISH
             Сервер ->> Клиент: {RESULT}
         end
-    else Pre Shared Key
-        note over Клиент: pre_shared_key
-        participant "some longname with **//styling//**"
-    end
-    
-    
-    
-    
-    
-    note over Клиент: **Server Random**<br>**Server Key Exchange**<br>Открытый ключ
-    Клиент ->> Клиент: Подлинность сервера<br>**pre-master secret**<br>(**Server Key Exchange** + **Client Key Exchange**)
-    alt В одной инструкции передаётся<br>pre-master secret
-        
-        Сервер->>Сервер: Проверка Хэша<br>Расшифровка
-    else В другой инструкции передаётся<br>Client Key Exchange
-        opt Change Cipher Spec + FINISH
-            Клиент->Сервер: {**Client Key Exchange**}<br>Хэш сообщений<br>{DATA}
+    else Pre Shared Key 0-RTT
+        note over Клиент: (C)pre_shared_key<br>psk_key_exchange_modes<br>PSK identity = pre_shared_key_id <br>MASTER SECRET (СИМЕТРИЧНЫЙ) =pre_shared_key+psk_key_exchange_modes
+        opt Client Hello
+            Клиент->>Сервер: **PSK identity**<br>psk_key_exchange_modes<br>**{DATA}
         end
-        Сервер->>Сервер: Проверка Хэша<br>Расшифровка<br>**pre-master secret**
+        note over Сервер: (S)pre_shared_key = ПОИСК(**PSK identity**,psk_key_exchange_modes)<br>MASTER SECRET (СИМЕТРИЧНЫЙ) =pre_shared_key+psk_key_exchange_modes
+        opt Server Hello
+            Сервер->>Клиент: {DATA}
+        end
     end
-    note over Сервер: [**pre-master secret**]
-    note over Клиент,Сервер: MASTER SECRET<br>(СИМЕТРИЧНЫЙ)<br> CR + SR + pre-master
-    
 
 ```
 
 ```
        Client                                           Server
-
 Key  ^ ClientHello
 Exch | + key_share*
      | + signature_algorithms*
@@ -165,6 +117,8 @@ Auth | {CertificateVerify*}
 ```
 
 # TLS 1.3 Handshake Diagram
+
+[Оглавление](../../../__00_Собес__/README.md#оглавление) _____ [Схема](../../../__00_Собес__/01_Сеть/README.md#схема)
 
 ## 1. ClientHello (Клиент → Сервер)
 ```
@@ -216,8 +170,3 @@ shared_secret = (server_private_key * client_public_key) = (client_private_key *
   - verify_data = HMAC(finished_key, handshake_transcript)
   - Теперь данные передаются в зашифрованном виде.
 ```
-
-HTTPS-запрос/ответ (зашифрованные HTTP-данные).
-
-Закрытие TCP-сессии (FIN → ACK → FIN → ACK).
-После разговора вы оба говорите "Пока!" (FIN/FIN-ACK) → сессия закрыта.
