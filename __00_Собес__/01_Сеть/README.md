@@ -13,7 +13,7 @@ flowchart TB
         application["7.Прикладной"]
         subgraph Protocol
             HTTP_REST_GRPC_GRAPHQL["HTTP_REST_GRPC_GRAPHQL*"]
-            click HTTP_REST_GRPC_GRAPHQL "../../__01_base__/_02_net_/L7/Protocol.md#HTTP_FTP_DNS" "Перейти к разделу"
+            click HTTP_REST_GRPC_GRAPHQL "https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Protocol.md" "Перейти к разделу"
             
             
         end
