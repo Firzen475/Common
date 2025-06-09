@@ -8,13 +8,13 @@ flowchart LR
 subgraph services
     direction TB
     subgraph l3/L6
-        TCP/TLS[<a href='../../__01_base__/_02_net_/L7/Protocol.md'>TCP</a>/<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L6/TLS.md'>TLS</a>]
-        UDP/DTLS
+        TCP/TLS[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L4/TCP_UDP.md#TCP'>TCP</a>/<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L6/TLS.md'>TLS</a>]
+        UDP/DTLS[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L4/TCP_UDP.md#UDP'>TCP</a>/<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L6/TLS.md'>DTLS</a>]
     end
     subgraph l7
         direction TB
         subgraph Транспорт
-            HTTP["HTTP1\2\3-QUIC"]
+            HTTP[<a href='https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L4/TCP_UDP.md#TCP'>HTTP1\2\3-QUIC</a>]
             WebSocket::WebTransport
             HTTP -.TCP HTTP-апгрейд 101<br>UDP HTTP/3.-> WebSocket::WebTransport
         end
