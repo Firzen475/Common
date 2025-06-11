@@ -76,7 +76,7 @@ grep "cached" /var/log/dnsmasq.log
 ```
 ### Debug client
 
-#### dig/nslookup
+#### dig|nslookup
 [Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема)
 
 ```shell
