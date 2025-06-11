@@ -13,10 +13,11 @@ flowchart TB
             click HTTP_REST_GRPC_GRAPHQL "https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Protocol.md" "Перейти к разделу"
         end
         subgraph l7_Service
-            dhcp[DHCP]
-            click dhcp "https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Service.md#DHCP"
-            dns[DNS]
-            ssh[SSH]
+            dhcp[DHCP*]
+            click dhcp "https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Service.md#DHCPd"
+            dns[DNS*]
+            click dns "https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Service.md#DNS"
+            ssh[SSH*]
         end
         HTTP_FTP_DNS["HTTP_FTP_DNS*"]
         
