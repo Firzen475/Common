@@ -1,5 +1,5 @@
 
-
+[Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема) => [DNS](./Service.md#dns)
 
 ```shell
 nano /etc/dnsmasq.conf
@@ -62,6 +62,25 @@ dhcp-option=6,192.168.1.1  # DNS (этот же сервер)
 
 # NTP-сервер для клиентов
 dhcp-option=42,192.168.1.1
+
+# ===== Настройки PXE (Network Boot) =====
+# Включить поддержку PXE
+dhcp-boot=pxelinux.0,pxeserver,192.168.1.1
+
+# Или для UEFI (x64):
+dhcp-boot=grub/x86_64-efi/shim.efi,pxeserver,192.168.1.1
+
+# TFTP-сервер (если он на этом же хосте)
+enable-tftp
+tftp-root=/var/lib/tftpboot
+
+# Указываем PXE-сервер и загрузочный файл
+pxe-service=x86PC, "Legacy BIOS Boot", pxelinux.0
+pxe-service=IA64_EFI, "UEFI Boot (64-bit)", grub/x86_64-efi/shim.efi
+
+# Альтернативный вариант через dhcp-option (для совместимости)
+dhcp-option=66,192.168.1.1  # IP TFTP-сервера (PXE-сервера)
+dhcp-option=67,pxelinux.0   # Boot-файл
 
 # ===== Блокировка рекламы и трекеров =====
 # Файл с блокируемыми доменами

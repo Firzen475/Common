@@ -19,6 +19,10 @@ flowchart TB
             click dns "https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Service.md#DNS"
             ssh[SSH*]
         end
+        subgraph l7_debug 
+            dig[<a href="https://github.com/Firzen475/Common/blob/main/__01_base__/_02_net_/L7/Service.md#dig">dig<a>]
+            
+        end
         HTTP_FTP_DNS["HTTP_FTP_DNS*"]
         
     end
