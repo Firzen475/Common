@@ -1,7 +1,7 @@
 
 # Редактирование настроек
 ```shell
-kubectl edit -n kube-system cm/coredns
+KUBE_EDITOR="nano" kubectl edit -n kube-system cm/coredns
 ```
 ```yaml
 data:

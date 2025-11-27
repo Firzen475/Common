@@ -40,6 +40,7 @@ export VAULT_ADDR='https://vault.secrets.svc:8200'
 export VAULT_CACERT='/tmp/certs/ca.crt'
 export VAULT_TOKEN="hvs.######"
 vault write auth/kubernetes/config token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" kubernetes_host=https://192.168.2.2:6443 kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+vault write auth/jwt/config token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" kubernetes_host=https://192.168.2.2:6443 kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 export VAULT_TOKEN=""
 ```
 

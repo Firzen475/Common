@@ -8,7 +8,8 @@ port 68 — клиент.
 
 [dnsmasq config](./dnsmasq.md)
 
-### Debug server
+### DHCPd_Debug 
+#### Server
 
 ```shell
 # Проверка конфигурации
@@ -23,7 +24,7 @@ sudo tcpdump -i eth0 -n port 67 or port 68 -vv
 * `DHCP Request` – клиент запрашивает адрес.
 * `DHCP ACK/NACK` – подтверждение или отказ.
 
-### Debug client
+#### client
 ```shell
 # Проверка аренды DHCP (файлы аренды)
 cat /var/lib/dhcp/dhclient.leases  # Ubuntu/Debian
@@ -76,7 +77,7 @@ grep "cached" /var/log/dnsmasq.log
 ```
 ### Debug client
 
-#### dig|nslookup
+#### dig/nslookup
 [Оглавление](../../../__00_Собес__/README.md#оглавление) => [Сеть](../../../__00_Собес__/01_Сеть/README.md#схема)
 
 ```shell
